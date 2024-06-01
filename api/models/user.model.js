@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { boolean } from "webidl-conversions";
 
 const userSchema = new mongoose.Schema({
     username:{
@@ -18,7 +19,11 @@ const userSchema = new mongoose.Schema({
     profilePicture: {
         type: String,
         default: "https://i.pinimg.com/1200x/4e/55/a5/4e55a5a5daa42b97dce7856b9ecb6502.jpg " ,
-    }
+    },
+    isAdmin:{
+        type : Boolean,
+        default: false,
+    },
 },
     {
         timestamps: true

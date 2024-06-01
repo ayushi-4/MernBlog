@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { updateStart,updateSuccess,updateFailure ,deleteUserStart , deleteUserFailure , deleteUserSuccess , signoutSuccess, } from '../redux/user/userSlice';
 import { app } from '../firebase';
+import{Link} from 'react-router-dom';
 import {HiOutlineExclamationCircle} from 'react-icons/hi'
 import { useDispatch } from 'react-redux';
 import { ref } from 'firebase/storage';
@@ -10,7 +11,7 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import {getDownloadURL, getStorage, uploadBytesResumable} from 'firebase/storage';
 export default function DashProfile() {
-const {currentUser , error} = useSelector(state => state.user)
+const {currentUser , error , loading } = useSelector(state => state.user)
     const [imageFile , setImageFile] = useState(null);
 const [imageFileUrl , setImageFileUrl] = useState(null);
     const [imageFileUploadProgress , setImageFileUploadProgress] = useState(0);
@@ -191,7 +192,21 @@ const [imageFileUploading , setImageFileUploading] = useState(false);
            defaultValue={currentUser.email} onChange={handleChange}/>
            <TextInput type='password' id='password' placeholder='password' onChange={handleChange}
             />
-            <Button type='submit' gradientDuoTone='purpleToPink' outline> Update </Button>
+            <Button type='submit' gradientDuoTone='purpleToPink' outline 
+             disabled ={loading || imageFileUploading}
+            >  {loading ? 'Loading...' : 'update '} </Button>
+            {
+              currentUser.isAdmin &&(
+                <Link to = {'/create-post'}>
+              <Button type='button'
+                gradientDuoTone='pinkToOrange'
+                className='w-full' outline >
+                  create a post 
+                </Button>
+                </Link>
+                
+              )
+            }
         </form>
         <div className="text-red-500 flex justify-between mt-5">
         <span onClick={()=> setShowModal(true)} className='cursor-pointer'> Delete Account </span>
