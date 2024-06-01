@@ -1,7 +1,7 @@
 import { Alert, Button, Modal, TextInput } from 'flowbite-react'
 import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux';
-import { updateStart,updateSuccess,updateFailure ,deleteUserStart , deleteUserFailure , deleteUserSuccess} from '../redux/user/userSlice';
+import { updateStart,updateSuccess,updateFailure ,deleteUserStart , deleteUserFailure , deleteUserSuccess , signoutSuccess, } from '../redux/user/userSlice';
 import { app } from '../firebase';
 import {HiOutlineExclamationCircle} from 'react-icons/hi'
 import { useDispatch } from 'react-redux';
@@ -130,6 +130,22 @@ const [imageFileUploading , setImageFileUploading] = useState(false);
             dispatch(deleteUserFailure(error.message));
           }
    };
+   const handleSignout = async()=>{
+     try {
+      const res = await fetch('/api/user/signout',{
+        method : "POST" ,
+      });
+      const data = await res.json();
+      if(!res.ok){
+        console.log(data.message);
+      }
+      else{
+          dispatch(signoutSuccess());
+      }
+     } catch (error) {
+      console.log(error.message);
+     }
+   };
   return (
     <div className='max-w-lg mx-auto p-3 w-full'>
         <h1 className='my-5 text-center font-semibold text-3xl'>  Profile</h1>
@@ -179,7 +195,7 @@ const [imageFileUploading , setImageFileUploading] = useState(false);
         </form>
         <div className="text-red-500 flex justify-between mt-5">
         <span onClick={()=> setShowModal(true)} className='cursor-pointer'> Delete Account </span>
-        <span className='cursor-pointer'> Sign Out </span>
+        <span onClick={handleSignout} className='cursor-pointer'> Sign Out </span>
         </div>
         {updateUserSuccess && (
           <Alert color='success' className='mt-5'>
