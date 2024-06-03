@@ -2,14 +2,16 @@ import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
+
 import Comment from './Comment';
-import { Link } from 'react-router-dom'
+import { Link , useNavigate} from 'react-router-dom'
 import { Textarea,Button,Alert } from 'flowbite-react'
 export default function CommentSection({postId}) {
     const {currentUser} = useSelector(state=> state.user)
     const[comment , setComment] = useState('');
     const [comments, setComments] = useState([]);
     const[commentError, setCommentError] = useState('');
+    const navigate = useNavigate();
 const handleSubmit = async(e)=>{
     e.preventDefault();
     if(comment.length>200){
@@ -52,6 +54,36 @@ useEffect(() => {
     getComments();
   }, [postId]);
 
+const handleLike = async(CommentId) =>{
+            try {
+              if(!currentUser){
+                navigate('/sign-in');
+                return;
+              }
+              const res = await fetch(`/api/comment/likeComment/${CommentId}`,{
+                method: 'PUT',
+              });
+              if(res.ok){
+                const data = await res.json();
+                setComments(comments.map((comment)=>
+                  comment._id === CommentId ?{
+                    ...comment,
+                    likes : data.likes,
+                    numberOfLikes : data.likes.length,
+                  }: comment
+                ));
+              }
+            } catch (error) {
+              console.log(error.message);
+            }
+};
+const handleEdit = async (comment, editedContent) => {
+  setComments(
+    comments.map((c) =>
+      c._id === comment._id ? { ...c, content: editedContent } : c
+    )
+  );
+};
   return (
    <div className='max-w-2xl mx-auto w-full p-3'>
     {currentUser ? 
@@ -113,9 +145,9 @@ useEffect(() => {
                 <Comment 
                 key={comment._id}
                 comment={comment}
-                // onLike={handleLike}
-                // onEdit={handleEdit}
-                // 
+                 onLike={handleLike}
+                onEdit={handleEdit}
+                
                  />
             ))
           }
