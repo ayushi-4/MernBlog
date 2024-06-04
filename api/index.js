@@ -16,7 +16,6 @@ mongoose.connect(process.env.MONGO).then(
 ).catch((error) =>{
     console.log(error);
 });
-
 const __dirname = path.resolve();
 const app = express();
 app.use(express.json());
