@@ -17,7 +17,7 @@ export default function CallToAction() {
             </Button>
         </div>
         <div className="p-7 flex-1">
-            <img src="https://img.freepik.com/free-photo/cute-ai-generated-cartoon-bunny_23-2150288870.jpg?size=338&ext=jpg&ga=GA1.1.672697106.1717286400&semt=ais_user" />
+            <img src="https://lh4.googleusercontent.com/proxy/pJDXvYwTROD8MS49jqQOw8BXn2O0upVrf99WnTXEUF1Pb5y9kYE_XYAo4Ye8KQiRTdT0hc_5INGfxYW7kL8c0yO7VkQ9MLdtFbT6QA4kpogNQ0s9n8hveEVnYTNvsO54MWZdQ_c" />
         </div>
     </div>
   )

@@ -124,6 +124,8 @@ const {currentUser} = useSelector((state)=> state.user)
         <option value ="Cosmetics">Cosmetics</option>
         <option value ="Sports">Sports</option>
         <option value ="Education">Education</option>
+        <option value ="Places">Places</option>
+
         <option value ="Other">Others</option>
     </select>
 </div>
