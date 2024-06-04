@@ -9,7 +9,10 @@ import postRoutes from './routes/post.route.js';
 import commentRoutes from './routes/comment.route.js';
 import path from 'path';
 dotenv.config();
-mongoose.connect(process.env.MONGO).then(
+mongoose.connect(process.env.MONGO,{
+    useNewUrlParser : true ,
+   useUnifiedTopology : true
+}).then(
     () =>{
         console.log("database is connected");
     }
